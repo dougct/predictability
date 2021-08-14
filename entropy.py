@@ -146,6 +146,12 @@ def entropy_kontoyiannis_longest_match(sequence):
 
 
 def baseline_entropy(sequence):
+    """"
+    Computes the baseline entropy of the input sequence using a closed-formula. 
+    The baseline entropy is the entropy of a sequence with the same size as the
+    original sequence, the same number of symbols in the novelty component, and 
+    a completely predictable routine component.
+    """
     n = len(sequence)
     m = len(set(sequence)) - 1
     k = n - m
@@ -155,6 +161,10 @@ def baseline_entropy(sequence):
 
 
 def baseline_entropy_kontoyiannis(sequence):
+    """"
+    Computes the baseline entropy of the input sequence by creating a baseline
+    sequence and running Kontoyiannis et al.'s entropy estimator on it.
+    """
     if not sequence:
         return 0.0
     n, n_unique = len(sequence), len(set(sequence))
