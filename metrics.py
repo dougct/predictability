@@ -136,7 +136,8 @@ def diversity(sequence):
     Returns the ratio of distinct substrings over the total number of 
     substrings in the sequence. The number of distinct substrings is
     computed using the LCP array. The total number of substrings is
-    computed using a closed-formula.
+    computed using a closed-formula. A naive implementation, which is
+    O(n^2), would be too inefficient for large strings.
 
     Parameters
     ----------
