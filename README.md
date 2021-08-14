@@ -5,19 +5,20 @@ This repository contains a library that computes several metrics related to indi
 
 ## Usage
 
-To install the library, type:
+First, clone the repository by running:
 
 ```
-python setup.py install
+git clone https://github.com/dougct/predictability.git
 ```
 
-To run the unit tests, type:
+To import the library, type `import predictability` from outside the `predictability` directory.
 
-```
-python -m pytest tests.py
-```
+To run the unit tests, type `python -m pytest tests.py` from inside the `predictability` directory.
+
 
 ## Examples
+
+The examples below show how to use several functions in the library.
 
 ### Metrics
 
@@ -99,7 +100,6 @@ print(ent)
 ```
 
 
-
 ### Predictability
 
 ```python
@@ -141,6 +141,7 @@ print(seq_merge)
 ```
 
 For more details about how to run each function in the library, please take a look at file `tests.py`.
+
 
 ## Citation
 
