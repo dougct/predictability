@@ -45,7 +45,9 @@ If you happen to use this library, we would appreciate if you could cite one of 
     numpages = {24},
     keywords = {predictability, entropy estimators, Human mobility, contextual information}
 }
+```
 
+```
 @inproceedings{Teixeira:2019,
     author = {Teixeira, Douglas do Couto and Viana, Aline Carneiro and Alvim, M\'{a}rio S. and Almeida, Jussara M.},
     title = {Deciphering Predictability Limits in Human Mobility},
