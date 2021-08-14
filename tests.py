@@ -47,9 +47,9 @@ def test_unc_entropy():
     for _ in range(nr_tests):
         X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
         _, counts = np.unique(X, return_counts=True)
-        scipy_entropy = scipy.stats.entropy(counts, base=2)
+        scipy_ent = scipy.stats.entropy(counts, base=2)
         unc_ent = unc_entropy(X)
-        assert round(unc_entropy, 2) == round(scipy_entropy, 2)
+        assert round(unc_ent, 2) == round(scipy_ent, 2)
 
 
 def test_real_entropy():
