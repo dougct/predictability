@@ -19,7 +19,128 @@ python -m pytest tests.py
 
 ## Examples
 
-For examples of how to use each function, please check the file `tests.py`.
+### Metrics
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H']
+reg = predictability.regularity(locations)
+print(reg)
+```
+
+```
+0.4
+```
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H']
+st = predictability.stationarity(locations)
+print(st)
+```
+
+```
+0.25
+```
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H']
+div = predictability.diversity(locations)
+print(div)
+```
+
+```
+0.8666666666666667
+```
+
+### Entropy
+
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H']
+ent = predictability.unc_entropy(locations)
+print(ent)
+```
+
+```
+1.3709505944546687
+```
+
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H']
+ent = predictability.entropy_kontoyiannis(locations)
+print(ent)
+```
+
+```
+1.934940079072802
+```
+
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H'] * 10
+ent = predictability.entropy_kontoyiannis(locations)
+print(ent)
+```
+
+```
+0.4679814419382027
+```
+
+
+
+### Predictability
+
+```python
+import predictability
+
+locations = ['H', 'H', 'W', 'S', 'H'] * 10
+ent = predictability.entropy_kontoyiannis(locations)
+n = len(set(locations))
+pred = predictability.max_predictability(ent, n)
+print(pred)
+```
+
+```
+0.923
+```
+
+### Context
+
+```python
+import random
+import predictability
+
+sequence_size = 100
+X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
+Y = [str(random.randint(0, 10)) for _ in range(sequence_size)]
+
+# Computes the entropy using the sequence-splitting strategy
+seq_split = predictability.sequence_splitting(X, Y)
+print(seq_split)
+
+# Computes the entropy using the sequence-merging strategy
+seq_merge = predictability.sequence_merging(X, Y)
+print(seq_merge)
+```
+
+```
+2.4411207658032263
+1.2122442585972815
+```
+
+For more details about how to run each function in the library, please take a look at file `tests.py`.
 
 ## Citation
 
