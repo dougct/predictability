@@ -14,7 +14,7 @@ python setup.py install
 To run the unit tests, type:
 
 ```
-python -m unittest discover .
+python -m pytest tests.py
 ```
 
 ## Examples
