@@ -1,8 +1,7 @@
 import random
-from unittest import TestCase
 
 import numpy as np
-#import scipy.stats
+import scipy.stats
 
 
 def test_regularity():
