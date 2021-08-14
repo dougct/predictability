@@ -62,8 +62,19 @@ def stationarity(sequence):
 
 def _suffix_array_manber_myers(s):
     """
+    Compute the suffix array of a string using the Manber-Meyers algorithm.
+
     Reference: http://algorithmicalley.com/archive/2013/06/30/suffix-arrays.aspx
-    Reference: https://louisabraham.github.io/notebooks/suffix_arrays.html
+
+    Parameters
+    ----------
+    s : string
+        The input string.
+
+    Returns
+    -------
+    list
+        The suffix array of the input string.
     """
     def sort_bucket(s, bucket, order):
         d = defaultdict(list)
@@ -83,8 +94,24 @@ def _suffix_array_manber_myers(s):
 
 def _kasai(s, sa):
     """
-    Reference: https://web.stanford.edu/class/cs166/lectures/03/Small03.pdf
-    Reference: https://web.stanford.edu/class/archive/cs/cs166/cs166.1146/
+    Computes the logest common prefix (LCP) array of a string given its suffix 
+    array using Kasai's algorithm.
+
+    References: 
+        - https://web.stanford.edu/class/cs166/lectures/03/Small03.pdf
+        - https://web.stanford.edu/class/archive/cs/cs166/cs166.1146/
+
+    Parameters
+    ----------
+    s : string
+        The input string.
+    sa : list
+        The suffix array of the input string.
+
+    Returns
+    -------
+    list
+        The LCP array of the input string.
     """
     n = len(s)
     k = 0
@@ -106,8 +133,22 @@ def _kasai(s, sa):
 
 def diversity(sequence):
     """
-    Returns the ratio of distinct substrings over the total number of substrings in the sequence.
-    Reference: https://www.youtube.com/watch?v=m2lZRmMjebw
+    Returns the ratio of distinct substrings over the total number of 
+    substrings in the sequence. The number of distinct substrings is
+    computed using the LCP array. The total number of substrings is
+    computed using a closed-formula.
+
+    Parameters
+    ----------
+    sequence : list
+        The input sequence of symbols, where each symbol is seen as a
+        character in a string.
+
+    Returns
+    -------
+    float
+        The ratio of distinct substrings over the total number of 
+        substrings in the sequence
     """
     if len(sequence) <= 1:
         return 0.0
@@ -115,10 +156,11 @@ def diversity(sequence):
     if len(sequence) == len(set(sequence)):
         return .0
 
-    suffix_array = _suffix_array_manber_myers(sequence)
-    lcp = _kasai(sequence, suffix_array)
-
     n = len(sequence)
     total_substrs = (n * (n + 1)) // 2
+
+    suffix_array = _suffix_array_manber_myers(sequence)
+    lcp = _kasai(sequence, suffix_array)
     distinct_substrs = total_substrs - sum(lcp)
+
     return distinct_substrs / total_substrs

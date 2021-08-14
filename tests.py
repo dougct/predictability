@@ -70,7 +70,7 @@ def test_context():
     from .entropy import entropy_kontoyiannis
 
     nr_tests = 100
-    sequence_size = 100
+    sequence_size = 200
     for _ in range(nr_tests):
         X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
         Y = [str(random.randint(0, 10)) for _ in range(sequence_size)]
