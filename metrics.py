@@ -137,7 +137,8 @@ def diversity(sequence):
     substrings in the sequence. The number of distinct substrings is
     computed using the LCP array. The total number of substrings is
     computed using a closed-formula. A naive implementation, which is
-    O(n^2), would be too inefficient for large strings.
+    O(n^2), would be too inefficient for large strings. This implementation
+    is O(n log n), where n is the size of the input sequence.
 
     Parameters
     ----------
