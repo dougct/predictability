@@ -74,7 +74,7 @@ def unc_entropy(sequence):
 
 def entropy_kontoyiannis(sequence):
     """
-    Estimate the entropy rate of the sequence using Kontoyiannis' estimator.
+    Estimate the entropy rate of the sequence using Kontoyiannis' algorithm.
 
     Reference:
         Kontoyiannis, I., Algoet, P. H., Suhov, Y. M., & Wyner, A. J. (1998).
@@ -93,6 +93,10 @@ def entropy_kontoyiannis(sequence):
     """
     if not sequence:
         return 0.0
+    
+    # For the pattern matching below, items in the sequence have to be strings
+    sequence = [str(item) for item in sequence]
+
     lambdas = 0
     n = len(sequence)
     for i in range(n):
@@ -135,6 +139,10 @@ def entropy_kontoyiannis_longest_match(sequence):
     """
     if not sequence:
         return 0.0
+
+    # For the pattern matching below, items in the sequence have to be strings
+    sequence = [str(item) for item in sequence]
+
     lambdas = 0
     n = len(sequence)
     for i in range(n):
@@ -155,9 +163,9 @@ def baseline_entropy(sequence):
     n = len(sequence)
     m = len(set(sequence)) - 1
     k = n - m
-    baseline_routine = (k * k) / 4 + k / 2
-    baseline_novelty = m
-    return n * np.log2(n) / (baseline_routine + baseline_novelty)
+    baseline_routine_size = (k * k) / 4 + k / 2
+    baseline_novelty_size = m
+    return n * np.log2(n) / (baseline_routine_size + baseline_novelty_size)
 
 
 def baseline_entropy_kontoyiannis(sequence):
