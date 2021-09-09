@@ -22,6 +22,9 @@ The examples below show how to use several functions in the library.
 
 ### Metrics
 
+We can use the library to compute some metrics about a person's mobility, described in our [paper](https://dl.acm.org/doi/10.1145/3459625) on the subject.
+
+
 ```python
 import predictability
 
