@@ -60,6 +60,7 @@ print(div)
 
 ### Entropy
 
+We first compute the _uncorrelated entropy_ (Shannon entropy) of a sequence:
 
 ```python
 import predictability
@@ -73,6 +74,7 @@ print(ent)
 1.3709505944546687
 ```
 
+We can also compute the compression-based entropy of a sequence, using the entropy estimator proposed by [Kontoyiannis](https://ieeexplore.ieee.org/abstract/document/669425) _et al._:
 
 ```python
 import predictability
@@ -86,6 +88,7 @@ print(ent)
 1.934940079072802
 ```
 
+Compression-based entropy estimates tend to lower and more robust for longer sequences, so let's create a bigger sequence and compute its entropy:
 
 ```python
 import predictability
@@ -102,6 +105,8 @@ print(ent)
 
 ### Predictability
 
+We can also compute the predictability of an input sequence, using the [technique](https://science.sciencemag.org/content/327/5968/1018) originally proposed by Song _et al._:
+
 ```python
 import predictability
 
@@ -116,7 +121,10 @@ print(pred)
 0.923
 ```
 
+
 ### Context
+
+The library also allows us to compute predictability taking into account an additional input sequence, describing extra information associated to each symbol in the original sequence. More details can be found in our [paper](https://dl.acm.org/doi/10.1145/3459625) on the subject.
 
 ```python
 import random
@@ -145,7 +153,7 @@ For more details about how to run each function in the library, please take a lo
 
 ## Citation
 
-If you happen to use this library, we would appreciate if you could cite one of our papers below, which build upon [Song et al.'s work](https://science.sciencemag.org/content/327/5968/1018) on predictability in human mobility.
+If you happen to use this library, we would appreciate if you could cite one of our papers below:
 
 
 ```
