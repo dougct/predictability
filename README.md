@@ -26,10 +26,10 @@ We can use the library to compute some metrics about a person's mobility, descri
 
 
 ```python
-import predictability
+from predictability import metrics
 
 locations = ['H', 'H', 'W', 'S', 'H']
-reg = predictability.regularity(locations)
+reg = metrics.regularity(locations)
 print(reg)
 ```
 
@@ -38,10 +38,10 @@ print(reg)
 ```
 
 ```python
-import predictability
+from predictability import metrics
 
 locations = ['H', 'H', 'W', 'S', 'H']
-st = predictability.stationarity(locations)
+st = metrics.stationarity(locations)
 print(st)
 ```
 
@@ -50,10 +50,10 @@ print(st)
 ```
 
 ```python
-import predictability
+from predictability import metrics
 
 locations = ['H', 'H', 'W', 'S', 'H']
-div = predictability.diversity(locations)
+div = metrics.diversity(locations)
 print(div)
 ```
 
@@ -66,10 +66,10 @@ print(div)
 We first compute the _uncorrelated entropy_ (Shannon entropy) of a sequence:
 
 ```python
-import predictability
+from predictability import entropy
 
 locations = ['H', 'H', 'W', 'S', 'H']
-ent = predictability.unc_entropy(locations)
+ent = entropy.unc_entropy(locations)
 print(ent)
 ```
 
@@ -80,10 +80,10 @@ print(ent)
 We can also compute the compression-based entropy of a sequence, using the entropy estimator proposed by [Kontoyiannis](https://ieeexplore.ieee.org/abstract/document/669425) _et al._:
 
 ```python
-import predictability
+from predictability import entropy
 
 locations = ['H', 'H', 'W', 'S', 'H']
-ent = predictability.entropy_kontoyiannis(locations)
+ent = entropy.entropy_kontoyiannis(locations)
 print(ent)
 ```
 
@@ -94,10 +94,10 @@ print(ent)
 Compression-based entropy estimates tend to lower and more robust for longer sequences, so let's create a bigger sequence and compute its entropy:
 
 ```python
-import predictability
+from predictability import entropy
 
 locations = ['H', 'H', 'W', 'S', 'H'] * 10
-ent = predictability.entropy_kontoyiannis(locations)
+ent = entropy.entropy_kontoyiannis(locations)
 print(ent)
 ```
 
@@ -111,12 +111,12 @@ print(ent)
 We can also compute the predictability of an input sequence, using the [technique](https://science.sciencemag.org/content/327/5968/1018) originally proposed by Song _et al._:
 
 ```python
-import predictability
+from predictability import entropy, pred_lims
 
 locations = ['H', 'H', 'W', 'S', 'H'] * 10
-ent = predictability.entropy_kontoyiannis(locations)
+ent = entropy.entropy_kontoyiannis(locations)
 n = len(set(locations))
-pred = predictability.max_predictability(ent, n)
+pred = pred_lims.max_predictability(ent, n)
 print(pred)
 ```
 
@@ -131,18 +131,18 @@ The library also allows us to compute predictability taking into account an addi
 
 ```python
 import random
-import predictability
+from predictability import context
 
 sequence_size = 100
 X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
 Y = [str(random.randint(0, 10)) for _ in range(sequence_size)]
 
 # Computes the entropy using the sequence-splitting strategy
-seq_split = predictability.sequence_splitting(X, Y)
+seq_split = context.sequence_splitting(X, Y)
 print(seq_split)
 
 # Computes the entropy using the sequence-merging strategy
-seq_merge = predictability.sequence_merging(X, Y)
+seq_merge = context.sequence_merging(X, Y)
 print(seq_merge)
 ```
 

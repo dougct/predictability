@@ -20,13 +20,16 @@ def regularity(sequence):
     float
         1 minus the ratio between unique and total symbols in the sequence.
     """
-    if len(set(sequence)) <= 1:
+    n = len(sequence)
+    n_unique = len(set(sequence))
+
+    if n_unique <= 1:
         return 1.0
 
-    if len(set(sequence)) == len(sequence):
+    if n_unique == n:
         return .0
 
-    return 1 - (len(set(sequence)) / len(sequence))
+    return 1 - (n_unique / n)
 
 
 def stationarity(sequence):
@@ -47,17 +50,21 @@ def stationarity(sequence):
     float
         Percentage of the sequence that is stationary.
     """
-    if len(sequence) <= 1:
+    n = len(sequence)
+    n_unique = len(set(sequence))
+
+    if n <= 1:
         return 1.0
 
-    if len(sequence) == len(set(sequence)):
+    if n == n_unique:
         return .0
 
     stationary_transitions = 0
-    for i in range(1, len(sequence)):
+    for i in range(1, n):
         if sequence[i - 1] == sequence[i]:
             stationary_transitions += 1
-    return stationary_transitions / (len(sequence) - 1)
+
+    return stationary_transitions / (n - 1)
 
 
 def _suffix_array_manber_myers(s):
@@ -152,13 +159,15 @@ def diversity(sequence):
         The ratio of distinct substrings over the total number of 
         substrings in the sequence
     """
-    if len(sequence) <= 1:
+    n = len(sequence)
+    n_unique = len(set(sequence))
+
+    if n <= 1:
         return 0.0
 
-    if len(sequence) == len(set(sequence)):
+    if n == n_unique:
         return .0
 
-    n = len(sequence)
     total_substrs = (n * (n + 1)) // 2
 
     suffix_array = _suffix_array_manber_myers(sequence)
