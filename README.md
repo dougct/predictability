@@ -1,6 +1,6 @@
 # Estimating Predictability in Human Mobility
 
-This repository contains a library that computes several metrics related to individual human mobility. 
+This repository contains a library that computes several metrics related to predictability of individual human mobility. 
 
 
 ## Usage
