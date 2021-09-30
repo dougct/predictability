@@ -159,6 +159,15 @@ def baseline_entropy(sequence):
     The baseline entropy is the entropy of a sequence with the same size as the
     original sequence, the same number of symbols in the novelty component, and 
     a completely predictable routine component.
+
+    Reference: 
+        https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00304-8
+
+    Args:
+        sequence: the input sequence of symbols.
+
+    Returns:
+        A float representing an estimate of the entropy rate of the sequence.
     """
     n = len(sequence)
     m = len(set(sequence)) - 1
@@ -172,6 +181,15 @@ def baseline_entropy_kontoyiannis(sequence):
     """"
     Computes the baseline entropy of the input sequence by creating a baseline
     sequence and running Kontoyiannis et al.'s entropy estimator on it.
+
+    Reference: 
+        https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00304-8
+
+    Args:
+        sequence: the input sequence of symbols.
+
+    Returns:
+        A float representing an estimate of the entropy rate of the sequence.
     """
     if not sequence:
         return 0.0

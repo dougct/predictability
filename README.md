@@ -181,6 +181,23 @@ If you happen to use this library, we would appreciate if you could cite one of 
 ```
 
 ```
+@article{Teixeira:2021,
+    author={Teixeira, Douglas do Couto and Almeida, Jussara M. and Viana, Aline Carneiro},
+    title={On estimating the predictability of human mobility: the role of routine},
+    journal={EPJ Data Science},
+    year={2021},
+    month={Sep},
+    day={29},
+    volume={10},
+    number={1},
+    pages={49},
+    issn={2193-1127},
+    doi={10.1140/epjds/s13688-021-00304-8},
+    url={https://doi.org/10.1140/epjds/s13688-021-00304-8}
+}
+```
+
+```
 @inproceedings{Teixeira:2019,
     author = {Teixeira, Douglas do Couto and Viana, Aline Carneiro and Alvim, M\'{a}rio S. and Almeida, Jussara M.},
     title = {Deciphering Predictability Limits in Human Mobility},
@@ -199,5 +216,3 @@ If you happen to use this library, we would appreciate if you could cite one of 
     keywords = {entropy estimators, human mobility, predictability},
 } 
 ```
-
-
