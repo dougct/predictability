@@ -11,7 +11,7 @@ First, clone the repository by running:
 git clone https://github.com/dougct/predictability.git
 ```
 
-To import the library, type `import predictability` from outside the `predictability` directory.
+To import the whole library, type `import predictability` from outside the `predictability` directory. Alternatively, you can import individual modules from the library by running `from predictability import MODULE-NAME`. The available modules are `metrics`, `entropy`, `pred_lims`, and `context`. Examples showing how to use functions in each of these modules can be found below.
 
 To run the unit tests, type `python -m pytest tests.py` from inside the `predictability` directory.
 
