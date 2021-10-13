@@ -105,6 +105,30 @@ print(ent)
 0.4679814419382027
 ```
 
+We can also compute the baseline entropy, as described in our [paper](https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00304-8):
+
+```python
+from predictability import entropy
+
+# We need longer sequences to obtain a good approximation for
+# the baseline entropy using the closed-formula
+locations = ['H', 'H', 'W', 'S', 'H'] * 25
+
+# Baseline entropy buiding the sequence and then running
+# Kontoyiannis's estimator on it
+baseline_ent_konto = entropy.entropy_kontoyiannis(locations)
+print(baseline_ent_konto)
+
+# Baseline entropy via closed-formula
+baseline_ent = entropy.baseline_entropy(locations)
+print(baseline_ent)
+```
+
+```
+0.226279375151
+0.226397045133
+```
+
 
 ### Predictability
 
@@ -181,7 +205,7 @@ If you happen to use this library, we would appreciate if you could cite one of 
 ```
 
 ```
-@article{Teixeira:2021,
+@article{Teixeira:2021a,
     author={Teixeira, Douglas do Couto and Almeida, Jussara M. and Viana, Aline Carneiro},
     title={On estimating the predictability of human mobility: the role of routine},
     journal={EPJ Data Science},

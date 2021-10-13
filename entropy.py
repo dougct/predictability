@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import math
 import numpy as np
 
 
@@ -158,7 +159,12 @@ def baseline_entropy(sequence):
     Computes the baseline entropy of the input sequence using a closed-formula. 
     The baseline entropy is the entropy of a sequence with the same size as the
     original sequence, the same number of symbols in the novelty component, and 
-    a completely predictable routine component.
+    a completely predictable routine component. 
+
+    Notice that for sequences of size less than 100, the estimates are not very
+    reliable. For longer sequences, this closed formula should give a very good
+    approximation for the baseline entropy, without having to build the 
+    sequence and then run Kontoyiannis et al.'s entropy estimator on it.
 
     Reference: 
         https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00304-8
@@ -167,14 +173,14 @@ def baseline_entropy(sequence):
         sequence: the input sequence of symbols.
 
     Returns:
-        A float representing an estimate of the entropy rate of the sequence.
+        A float indicating an estimate of the baseline entropy of the sequence.
     """
     n = len(sequence)
-    m = len(set(sequence)) - 1
-    k = n - m
-    baseline_routine_size = (k * k) / 4 + k / 2
+    m = len(set(sequence))
+    k = n - m + 1
+    baseline_routine_size = math.ceil((k * k) / 4 + k / 2)
     baseline_novelty_size = m
-    return n * np.log2(n) / (baseline_routine_size + baseline_novelty_size)
+    return (n * np.log2(n)) / (baseline_routine_size + baseline_novelty_size)
 
 
 def baseline_entropy_kontoyiannis(sequence):
