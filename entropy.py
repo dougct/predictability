@@ -4,73 +4,65 @@ import math
 import numpy as np
 
 
-def entropy(Y):
-    """
-    Computes H(X) using Shannon's formula.
-    """
-    _, count = np.unique(Y, return_counts=True, axis=0)
-    prob = count / len(Y)
-    return np.sum((-1) * prob * np.log2(prob))
-
-
-def joint_entropy(Y, X):
-    """
-    Computes H(X, Y), the joint entropy of X and Y.
-    """
-    XY = np.c_[X, Y]
-    return entropy(XY)
-
-
-def conditional_entropy(X, Y):
-    """
-    Computes the conditional entropy of X given Y, whose formula is H(X | Y) = H(X, Y) - H(Y).
-    """
-    return joint_entropy(X, Y) - entropy(Y)
-
-
-def rand_entropy(sequence):
+def uniform_entropy(sequence):
     """
     Computes the "random entropy", that is, the entropy of a uniform distribution.
 
     Equation:
-        S_{rand} = \log_{2}(n), where n is the number of unique symbols in the input sequence.
+        $H_{uniform} = \log_{2}(n)$, where n is the number of unique symbols in the input sequence.
 
     Args:
-        sequence: 1-D array-like sequence of symbols.
+        sequence: a list of symbols.
 
     Returns:
         A float representing the random entropy of the input sequence.
-
-    Reference: 
-        Limits of Predictability in Human Mobility. Chaoming Song, Zehui Qu, 
-        Nicholas Blumm1, Albert-László Barabási. Vol. 327, Issue 5968, pp. 1018-1021.
-        DOI: 10.1126/science.1177170
     """
-    alphabet_size = np.unique(sequence).size
-    return np.log2(alphabet_size)
+    n_unique = len(set(sequence))
+    if n_unique == 0:
+        return 0.0
+    return np.log2(n_unique)
 
 
-def unc_entropy(sequence):
+def shannon_entropy(sequence):
     """
-    Compute temporal-uncorrelated entropy (Shannon entropy).
+    Computes H(sequence) using Shannon's formula.
 
     Equation:
-    S_{unc} = - \sum p(i) \log_2{p(i)}, for each symbol i in the input sequence.
+    $H_{shannon} = - \sum p(i) \log_2{p(i)}$, for each symbol i in the input sequence.
 
     Args:
         sequence: the input sequence of symbols.
 
     Returns:
-        temporal-uncorrelated entropy of the input sequence.
-
-    Reference: 
-        Limits of Predictability in Human Mobility. Chaoming Song, Zehui Qu, 
-        Nicholas Blumm1, Albert-László Barabási. Vol. 327, Issue 5968, pp. 1018-1021.
-        DOI: 10.1126/science.1177170
+        A float representing the Shannon entropy of the input sequence.
     """
-    _, counts = np.unique(sequence, return_counts=True)
-    probabilities = counts / counts.sum()
-    return -np.sum(probabilities * np.log2(probabilities))
+    n = len(sequence)
+    if n == 0:
+        return 0.0
+    _, counts = np.unique(sequence, return_counts=True, axis=0)
+    probs = counts / n
+    return np.sum((-1) * probs * np.log2(probs))
+
+
+def joint_entropy(X, Y):
+    """
+    Computes H(X, Y), the joint entropy of X and Y.
+    """
+    probs = []
+    for xi in set(X):
+        for yi in set(Y):
+            probs.append(np.mean(np.logical_and(X == xi, Y == yi)))
+    return np.sum(-p * np.log2(p) for p in probs if p > 0)
+
+
+def conditional_entropy(X, Y):
+    """
+    Computes the conditional entropy of X given Y.
+
+    Equation:
+        $H(X | Y) = H(X, Y) - H(Y)$
+    """
+    return joint_entropy(X, Y) - shannon_entropy(Y)
 
 
 def entropy_kontoyiannis(sequence):
@@ -83,8 +75,12 @@ def entropy_kontoyiannis(sequence):
         fields, with applications to English text. IEEE Transactions on Information
         Theory, 44(3), 1319-1327.
 
+        Limits of Predictability in Human Mobility. Chaoming Song, Zehui Qu, 
+        Nicholas Blumm1, Albert-László Barabási. Vol. 327, Issue 5968, pp. 1018-1021.
+        DOI: 10.1126/science.1177170
+
     Equation:
-        S_{real} = \left( \frac{1}{n} \sum \Lambda_{i} \right)^{-1}\log_{2}(n)
+        $H_{kontoyiannis} = \left( \frac{1}{n} \sum \Lambda_{i} \right)^{-1}\log_{2}(n)$
 
     Args:
         sequence: the input sequence of symbols.
@@ -92,14 +88,14 @@ def entropy_kontoyiannis(sequence):
     Returns:
         A float representing an estimate of the entropy rate of the sequence.
     """
-    if not sequence:
+    n = len(sequence)
+    if n == 0:
         return 0.0
     
     # For the pattern matching below, items in the sequence have to be strings
     sequence = [str(item) for item in sequence]
 
     lambdas = 0
-    n = len(sequence)
     for i in range(n):
         current_sequence = ''.join(sequence[0:i])
         match = True
@@ -108,7 +104,7 @@ def entropy_kontoyiannis(sequence):
             k += 1
             match = ''.join(sequence[i:k]) in current_sequence
         lambdas += (k - i)
-    return (1.0 * len(sequence) / lambdas) * np.log2(len(sequence))
+    return (1.0 * n / lambdas) * np.log2(n)
 
 
 def longest_match_length(s, i):
@@ -130,7 +126,7 @@ def entropy_kontoyiannis_longest_match(sequence):
         Theory, 44(3), 1319-1327.
 
     Equation:
-        S_{real} = \left( \frac{1}{n} \sum \Lambda_{i} \right)^{-1}\log_{2}(n)
+        $S_{real} = \left( \frac{1}{n} \sum \Lambda_{i} \right)^{-1}\log_{2}(n)$
 
     Args:
         sequence: the input sequence of symbols.
@@ -138,20 +134,42 @@ def entropy_kontoyiannis_longest_match(sequence):
     Returns:
         A float representing an estimate of the entropy rate of the sequence.
     """
-    if not sequence:
+    n = len(sequence)
+    if n == 0:
         return 0.0
 
     # For the pattern matching below, items in the sequence have to be strings
     sequence = [str(item) for item in sequence]
 
     lambdas = 0
-    n = len(sequence)
     for i in range(n):
         match_length = longest_match_length(sequence, i)
-        print(sequence[0:i], sequence[i:i+match_length])
         lambdas += (match_length + 1)
-    print(lambdas)
-    return (1.0 * len(sequence) / lambdas) * np.log2(len(sequence))
+    return (1.0 * n / lambdas) * np.log2(n)
+
+
+def baseline_entropy_kontoyiannis(sequence):
+    """"
+    Computes the baseline entropy of the input sequence by creating a baseline
+    sequence and running Kontoyiannis et al.'s entropy estimator on it.
+
+    Reference: 
+        https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00304-8
+
+    Args:
+        sequence: the input sequence of symbols.
+
+    Returns:
+        A float indicating an estimate of the baseline entropy of the sequence.
+    """
+    if not sequence:
+        return 0.0
+
+    n = len(sequence)
+    unique_symbols = set(sequence)
+    n_unique = len(unique_symbols)
+    baseline_sequence = [sequence[0]] * (n - n_unique) + list(unique_symbols)
+    return entropy_kontoyiannis(baseline_sequence)
 
 
 def baseline_entropy(sequence):
@@ -183,22 +201,17 @@ def baseline_entropy(sequence):
     return (n * np.log2(n)) / (baseline_routine_size + baseline_novelty_size)
 
 
-def baseline_entropy_kontoyiannis(sequence):
-    """"
-    Computes the baseline entropy of the input sequence by creating a baseline
-    sequence and running Kontoyiannis et al.'s entropy estimator on it.
+# The three functions below are wrappers to the functions previously defined.
+# The sole purpuse of these functions below is to follow the naming conventions
+# defined in Song et al.'s paper (Limits of Predictability in Human Mobility).
+# In the paper, they define three types of entropy: s_rand, s_unc, and s_real.
 
-    Reference: 
-        https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-021-00304-8
+def s_rand(sequence):
+    return uniform_entropy(sequence)
 
-    Args:
-        sequence: the input sequence of symbols.
+def s_unc(sequence):
+    return shannon_entropy(sequence)
 
-    Returns:
-        A float representing an estimate of the entropy rate of the sequence.
-    """
-    if not sequence:
-        return 0.0
-    n, n_unique = len(sequence), len(set(sequence))
-    baseline_sequence = [sequence[0]] * (n - n_unique) + list(set(sequence))
-    return entropy_kontoyiannis(baseline_sequence)
+def s_real(sequence):
+    return entropy_kontoyiannis(sequence)
+

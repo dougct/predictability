@@ -1,8 +1,5 @@
 import random
 
-import numpy as np
-import scipy.stats
-
 
 def test_regularity():
     from .metrics import regularity
@@ -39,30 +36,28 @@ def test_diversity():
     assert round(diversity(["HW", "P", "HW", "S", "HW", "B"]), 2) == 0.90
 
 
-def test_unc_entropy():
-    from .entropy import unc_entropy
+def test_shannon_entropy():
+    from .entropy import uniform_entropy, shannon_entropy
 
     nr_tests = 100
     sequence_size = 500
     for _ in range(nr_tests):
         X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
-        _, counts = np.unique(X, return_counts=True)
-        scipy_ent = scipy.stats.entropy(counts, base=2)
-        unc_ent = unc_entropy(X)
-        assert round(unc_ent, 2) == round(scipy_ent, 2)
+        uniform_ent = uniform_entropy(X)
+        shannon_ent = shannon_entropy(X)
+        assert round(shannon_ent, 3) <= round(uniform_ent, 3)
 
 
 def test_real_entropy():
-    from .entropy import entropy_kontoyiannis
+    from .entropy import shannon_entropy, entropy_kontoyiannis
 
     nr_tests = 100
     sequence_size = 500
     for _ in range(nr_tests):
         X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
-        _, counts = np.unique(X, return_counts=True)
-        shannon_ent = scipy.stats.entropy(counts, base=2)
+        shannon_ent = shannon_entropy(X)
         song_ent = entropy_kontoyiannis(X)
-        assert round(song_ent, 2) <= round(shannon_ent, 2)
+        assert round(song_ent, 3) <= round(shannon_ent, 3)
 
 
 def test_context():

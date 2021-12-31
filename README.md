@@ -1,7 +1,6 @@
 # Estimating Predictability in Human Mobility
 
-This repository contains a library that computes several metrics related to predictability of individual human mobility. 
-
+This repository contains a library that computes several metrics related to predictability of individual human mobility.
 
 ## Usage
 
@@ -15,7 +14,6 @@ To import the whole library, type `import predictability` from outside the `pred
 
 To run the unit tests, type `python -m pytest tests.py` from inside the `predictability` directory.
 
-
 ## Examples
 
 The examples below show how to use several functions in the library.
@@ -23,7 +21,6 @@ The examples below show how to use several functions in the library.
 ### Metrics
 
 We can use the library to compute some metrics about a person's mobility, described in our [paper](https://dl.acm.org/doi/10.1145/3459625) on the subject.
-
 
 ```python
 from predictability import metrics
@@ -69,7 +66,7 @@ We first compute the _uncorrelated entropy_ (Shannon entropy) of a sequence:
 from predictability import entropy
 
 locations = ['H', 'H', 'W', 'S', 'H']
-ent = entropy.unc_entropy(locations)
+ent = entropy.shannon_entropy(locations)
 print(ent)
 ```
 
@@ -129,7 +126,6 @@ print(baseline_ent)
 0.226397045133
 ```
 
-
 ### Predictability
 
 We can also compute the predictability of an input sequence, using the [technique](https://science.sciencemag.org/content/327/5968/1018) originally proposed by Song _et al._:
@@ -139,15 +135,14 @@ from predictability import entropy, pred_lims
 
 locations = ['H', 'H', 'W', 'S', 'H'] * 10
 ent = entropy.entropy_kontoyiannis(locations)
-n = len(set(locations))
-pred = pred_lims.max_predictability(ent, n)
+n_unique = len(set(locations))
+pred = pred_lims.max_predictability(ent, n_unique)
 print(pred)
 ```
 
 ```
 0.923
 ```
-
 
 ### Context
 
@@ -161,11 +156,11 @@ sequence_size = 100
 X = [str(random.randint(0, 10)) for _ in range(sequence_size)]
 Y = [str(random.randint(0, 10)) for _ in range(sequence_size)]
 
-# Computes the entropy using the sequence-splitting strategy
+# Compute the entropy using the sequence-splitting strategy
 seq_split = context.sequence_splitting(X, Y)
 print(seq_split)
 
-# Computes the entropy using the sequence-merging strategy
+# Compute the entropy using the sequence-merging strategy
 seq_merge = context.sequence_merging(X, Y)
 print(seq_merge)
 ```
@@ -185,7 +180,7 @@ If you happen to use this library, we would appreciate if you could cite one of 
 
 ```
 @article{Teixeira:2021,
-    author = {Teixeira, Douglas Do Couto and Viana, Aline Carneiro and Almeida, Jussara M. and Alvim, Mrio S.},
+    author = {Teixeira, Douglas Do Couto and Viana, Aline Carneiro and Almeida, Jussara M. and Alvim, Mario S.},
     title = {The Impact of Stationarity, Regularity, and Context on the Predictability of Individual Human Mobility},
     year = {2021},
     issue_date = {June 2021},
