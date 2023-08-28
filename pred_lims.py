@@ -8,7 +8,7 @@ from .entropy import entropy_kontoyiannis, baseline_entropy_kontoyiannis
 
 def max_predictability(S, N):
     """
-    Estimate the maximum predictability of a sequence with 
+    Estimate the maximum predictability of a sequence with
     entropy S and alphabet size N.
 
     Equation:
@@ -22,8 +22,8 @@ def max_predictability(S, N):
     Returns:
         the maximum predictability of the sequence.
 
-    Reference: 
-        Limits of Predictability in Human Mobility. Chaoming Song, Zehui Qu, 
+    Reference:
+        Limits of Predictability in Human Mobility. Chaoming Song, Zehui Qu,
         Nicholas Blumm1, Albert-László Barabási. Vol. 327, Issue 5968, pp. 1018-1021.
         DOI: 10.1126/science.1177170
     """
@@ -32,7 +32,7 @@ def max_predictability(S, N):
     for p in np.arange(0.0001, 1.0000, 0.0001):
         h = -p * math.log2(p) - (1 - p) * math.log2(1 - p)
         pi_max = h + (1 - p) * math.log2(N - 1) - S
-        if pi_max <= 0.001:
+        if abs(pi_max) <= 0.001:
             return round(p, 3)
     return 0.0
 
@@ -40,12 +40,12 @@ def max_predictability(S, N):
 def predictability_gap(sequence):
     if not sequence:
         return 0.0
-    
-    n_unique = len(set(sequence))    
-    
+
+    n_unique = len(set(sequence))
+
     original_entropy = entropy_kontoyiannis(sequence)
     original_predictability = max_predictability(original_entropy, n_unique)
-    
+
     baseline_entropy = baseline_entropy_kontoyiannis(sequence)
     baseline_predictability = max_predictability(baseline_entropy, n_unique)
 
